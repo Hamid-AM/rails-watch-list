@@ -6,6 +6,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
+    @bookmarks = @list.bookmarks.includes(:movie)
   end
 
   def new
@@ -15,7 +16,7 @@ class ListsController < ApplicationController
   def create
     @list = List.new(params_list)
     if @list.save
-      redirect_to list_path(@list)
+      redirect_to lists_path
     else
       render :new, status: :unprocessable_entity
     end
