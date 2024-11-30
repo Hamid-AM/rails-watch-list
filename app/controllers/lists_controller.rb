@@ -6,7 +6,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
-    @bookmarks = @list.bookmarks.includes(:movie)
+    @bookmark = Bookmark.new
   end
 
   def new
@@ -25,6 +25,6 @@ class ListsController < ApplicationController
   private
 
   def params_list
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :image)
   end
 end

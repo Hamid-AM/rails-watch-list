@@ -1,13 +1,38 @@
-<h1><%= @list.name %></h1>
-<p>Movies of the list</p>
-<u>
-  <% @list.bookmarks.each do |bookmark| %>
-    <li>
-      <%= bookmark.movie.title %> - <%= bookmark.comment %>
-      <%= link_to 'Delete', bookmark_path(bookmark), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
-    </li>
-  <% end %>
-</u>
 
-<%= link_to 'Back to Lists', lists_path %>
-<%= link_to "Add bookmark", new_list_bookmark_path(@list) %>
+
+  <h1 class="text-center"><%= @list.name %></h1>
+  <% if @list.image.attached? %>
+    <%= image_tag url_for(@list.image), style: 'width: 100%; height: 400px;' %>
+  <% end %>
+
+<div class="container my-5">
+    <div class="row">
+      <% @list.bookmarks.each do |bookmark| %>
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <%= image_tag url_for(bookmark.movie.poster_url) %>
+            <div class="card-body">
+              <h5 class="card-title"><%= bookmark.movie.title %></h5>
+              <p class="card-text"><%= bookmark.comment %></p>
+              <%= link_to 'Delete', bookmark_path(bookmark), class: 'btn btn-danger', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+</div>
+
+
+<div>
+  <%= simple_form_for [@list, @bookmark] do |f| %>
+    <%= f.association :movie, collection: Movie.all, prompt: 'Select a movie'%>
+    <%= f.input :comment %>
+    <%= f.submit 'Add Bookmark' %>
+  <% end %>
+</div>
+
+<div>
+    <%= link_to 'Back to Lists', root_path, class: 'btn btn-primary' %>
+    <%= link_to "Add bookmark", list_path(@list) %>
+  </div>
+</div>
