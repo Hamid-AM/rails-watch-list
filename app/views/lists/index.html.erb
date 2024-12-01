@@ -21,9 +21,7 @@
       <% @lists.each do |list| %>
         <div class="col-lg-4 mb-4">
           <div class="card text-white">
-            <div class="d-flex justify-content-center align-items-center" style="background: url('<%= cl_image_path list.image.key %>') center center; background-size: cover; height: 250px;">
-              <%= link_to list.name, list_path(list), class: "card-title bg-dark bg-opacity-50 text-center text-decoration-none fw-bold fs-2 py-2 w-100" %>
-            </div>
+<% if list.image.attached? %> <div class="d-flex justify-content-center align-items-center" style="background: url('<%= url_for(list.image) %>') center center; background-size: cover; height: 250px;"> <%= link_to list.name, list_path(list), class: "card-title bg-dark bg-opacity-50 text-center text-decoration-none fw-bold fs-2 py-2 w-100" %> </div> <% else %> <div class="d-flex justify-content-center align-items-center" style="background: grey; height: 250px;"> <%= link_to list.name, list_path(list), class: "card-title bg-dark bg-opacity-50 text-center text-decoration-none fw-bold fs-2 py-2 w-100" %> </div> <% end%>
           </div>
         </div>
       <% end %>
